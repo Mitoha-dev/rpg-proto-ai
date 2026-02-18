@@ -12,6 +12,8 @@ public class TestRust : MonoBehaviour
     {
         RustLoader.Load();
 
+        RpgProto.Infrastructure.RustLogger.Register();
+
         // 1. まず初期ステータスをもらう
         var getStatusFunc = RustLoader.GetFunction<GetPlayerStatusDelegate>("get_player_status");
         var calcDamageFunc = RustLoader.GetFunction<CalculateDamageDelegate>("calculate_damage");
