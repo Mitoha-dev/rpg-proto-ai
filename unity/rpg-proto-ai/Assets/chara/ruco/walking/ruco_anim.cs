@@ -1,8 +1,8 @@
 using UnityEngine;
-
 public class PlayerMove : MonoBehaviour
 {
     public float speed = 3f;
+    public float startY = -1.1f;
     Animator anim;
     SpriteRenderer sr;
 
@@ -10,29 +10,22 @@ public class PlayerMove : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        transform.position = new Vector3(transform.position.x, startY, transform.position.z);
     }
 
     void Update()
     {
         float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
+        transform.position += new Vector3(x, 0, 0) * speed * Time.deltaTime;
+        anim.SetBool("isMoving", x != 0);
 
-        Vector2 dir = new Vector2(x, y);
-
-        // 移動
-        transform.position += (Vector3)dir.normalized * speed * Time.deltaTime;
-
-        // アニメ切り替え
-        anim.SetBool("isMoving", dir.magnitude > 0.1f);
-
-        // ★ 左右反転（ここが重要）
         if (x > 0)
         {
-            sr.flipX = true;   // 右向き
+            sr.flipX = true;
         }
         else if (x < 0)
         {
-            sr.flipX = false;  // 左向き（元の向き）
+            sr.flipX = false;
         }
     }
 }
